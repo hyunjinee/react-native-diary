@@ -1,10 +1,21 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
 
-import MainTab from './MainTab';
+import MainTab, {MainTabNavigationScreenParams} from './MainTab';
 import WriteScreen from './WriteScreen';
 
-const Stack = createNativeStackNavigator();
+type RootStackParamList = {
+  MainTab: MainTabNavigationScreenParams;
+  WriteScreen: undefined;
+};
+
+export type RootStackNavigationProp =
+  NativeStackNavigationProp<RootStackParamList>;
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootStack() {
   return (
@@ -14,7 +25,13 @@ function RootStack() {
         component={MainTab}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="WriteScreen" component={WriteScreen} />
+      <Stack.Screen
+        name="WriteScreen"
+        component={WriteScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 }

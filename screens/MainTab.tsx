@@ -1,16 +1,32 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabNavigationProp,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import FeedsScreen from './FeedsScreen';
 import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
+import {
+  CompositeNavigationProp,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
+import {RootStackNavigationProp} from './RootStack';
 
 type MainTabParamList = {
   Feeds: undefined;
   Calendar: undefined;
   Search: undefined;
 };
+
+export type MainTabNavigationProp = CompositeNavigationProp<
+  RootStackNavigationProp,
+  BottomTabNavigationProp<MainTabParamList>
+>;
+
+export type MainTabNavigationScreenParams =
+  NavigatorScreenParams<MainTabParamList>;
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
