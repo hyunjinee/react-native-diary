@@ -5,7 +5,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RootStackNavigationProp} from '../screens/RootStack';
 import TransparentCircleButton from './TransparentCircleButton';
 
-function WriteHeader() {
+interface WriteHeaderProps {
+  onSave: () => void;
+}
+
+function WriteHeader({onSave}: WriteHeaderProps) {
   const naviagtion = useNavigation<RootStackNavigationProp>();
 
   const onGoBack = () => {
@@ -26,7 +30,11 @@ function WriteHeader() {
           color="#ef5350"
           hasMarginRight
         />
-        <TransparentCircleButton name="check" color="#009688" />
+        <TransparentCircleButton
+          name="check"
+          color="#009688"
+          onPress={onSave}
+        />
       </View>
     </View>
   );
