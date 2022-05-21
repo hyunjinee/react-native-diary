@@ -1,11 +1,12 @@
 import React, {createContext, useContext, useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
+import {nanoid} from 'nanoid';
+// import {v4 as uuidv4} from 'uuid';
 
 export interface Log {
   id: string;
   title: string;
   body: string;
-  date: Date;
+  date: string;
 }
 export interface LogContextValue {
   logs: Log[];
@@ -15,11 +16,21 @@ export interface LogContextValue {
 const LogContext = createContext<LogContextValue | null>(null);
 
 export function LogContextProvider({children}: {children: React.ReactNode}) {
-  const [logs, setLogs] = useState<Log[]>([]);
+  // const [logs, setLogs] = useState<Log[]>([]);
+  const [logs, setLogs] = useState<Log[]>(
+    Array.from({length: 10})
+      .map((_, index) => ({
+        id: nanoid(),
+        title: `title ${index}`,
+        body: `body ${index}`,
+        date: new Date().toISOString(),
+      }))
+      .reverse(),
+  );
 
   const onCreate = ({title, body, date}: Partial<Log>) => {
     const log = {
-      id: uuidv4(),
+      id: nanoid(),
       title,
       body,
       date,
