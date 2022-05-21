@@ -12,13 +12,32 @@ import FeedListItem from './FeedListItem';
 
 interface FeedListProps {
   logs: Log[];
+  onScrolledToBottom?: (isBottom: boolean) => void;
 }
 
-function FeedList({logs}: FeedListProps) {
+function FeedList({logs, onScrolledToBottom}: FeedListProps) {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    if (!onScrolledToBottom) {
+      return;
+    }
+
     const {contentSize, layoutMeasurement, contentOffset} = e.nativeEvent;
-    console.log(contentSize, layoutMeasurement, contentOffset);
+    // console.log(contentSize, layoutMeasurement, contentOffset);
+    const distanceFromBottom =
+      contentSize.height - layoutMeasurement.height - contentOffset.y;
+
+    if (
+      distanceFromBottom < 72 &&
+      contentSize.height > layoutMeasurement.height // 아이폰에서 컨텐츠가 적은데도 스크롤 할 수 있을 때 버튼 숨기는거 방지
+    ) {
+      // console.log('바닥가 가깝다.');
+      onScrolledToBottom(true);
+    } else {
+      onScrolledToBottom(false);
+      // console.log('바닥과 멀다');
+    }
   };
+
   return (
     <FlatList
       data={logs}
