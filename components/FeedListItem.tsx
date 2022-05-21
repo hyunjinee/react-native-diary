@@ -1,8 +1,10 @@
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {Platform, Pressable, StyleSheet, Text} from 'react-native';
 import {Log} from '../contexts/LogContext';
 import {format, formatDistanceToNow} from 'date-fns';
 import {ko} from 'date-fns/locale';
+import {MainTabNavigationProp} from '../screens/MainTab';
 
 function truncate(text: string) {
   // 정규식을 사용해 모든 줄 바꿈 문자 제거
@@ -37,8 +39,17 @@ interface FeedListItemProps {
 function FeedListItem({log}: FeedListItemProps) {
   const {title, body, date} = log;
 
+  const navigation = useNavigation<MainTabNavigationProp>();
+
+  const onPress = () => {
+    navigation.navigate('WriteScreen', {
+      log,
+    });
+  };
+
   return (
     <Pressable
+      onPress={onPress}
       style={({pressed}) => [
         styles.block,
         Platform.OS === 'ios' && pressed && {backgroundColor: '#efefef'},

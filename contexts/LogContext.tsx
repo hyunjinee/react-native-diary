@@ -11,6 +11,7 @@ export interface Log {
 export interface LogContextValue {
   logs: Log[];
   onCreate: ({title: body, date}: Partial<Log>) => void;
+  onModify: (modified: Log) => void;
 }
 
 const LogContext = createContext<LogContextValue | null>(null);
@@ -38,8 +39,13 @@ export function LogContextProvider({children}: {children: React.ReactNode}) {
     setLogs([log, ...logs]);
   };
 
+  const onModify = (modified: Log) => {
+    const nextLogs = logs.map(log => (log.id === modified.id ? modified : log));
+    setLogs(nextLogs);
+  };
+
   return (
-    <LogContext.Provider value={{logs, onCreate}}>
+    <LogContext.Provider value={{logs, onCreate, onModify}}>
       {children}
     </LogContext.Provider>
   );

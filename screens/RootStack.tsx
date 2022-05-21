@@ -6,14 +6,22 @@ import {
 
 import MainTab, {MainTabNavigationScreenParams} from './MainTab';
 import WriteScreen from './WriteScreen';
+import {Log} from '../contexts/LogContext';
+import {RouteProp} from '@react-navigation/native';
 
 type RootStackParamList = {
   MainTab: MainTabNavigationScreenParams;
-  WriteScreen: undefined;
+  WriteScreen:
+    | {
+        log: Log;
+      }
+    | undefined;
 };
 
 export type RootStackNavigationProp =
   NativeStackNavigationProp<RootStackParamList>;
+
+export type WriteScreenRouteProp = RouteProp<RootStackParamList, 'WriteScreen'>;
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
