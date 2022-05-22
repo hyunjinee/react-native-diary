@@ -13,9 +13,18 @@ import FeedListItem from './FeedListItem';
 interface FeedListProps {
   logs: Log[];
   onScrolledToBottom?: (isBottom: boolean) => void;
+  ListHeaderComponent?:
+    | React.ComponentType<any>
+    | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+    | null
+    | undefined;
 }
 
-function FeedList({logs, onScrolledToBottom}: FeedListProps) {
+function FeedList({
+  logs,
+  onScrolledToBottom,
+  ListHeaderComponent,
+}: FeedListProps) {
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     if (!onScrolledToBottom) {
       return;
@@ -46,6 +55,7 @@ function FeedList({logs, onScrolledToBottom}: FeedListProps) {
       keyExtractor={log => log.id}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       onScroll={onScroll}
+      ListHeaderComponent={ListHeaderComponent}
     />
   );
 }
