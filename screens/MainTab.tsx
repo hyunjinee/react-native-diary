@@ -8,11 +8,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import FeedsScreen from './FeedsScreen';
 import CalendarScreen from './CalendarScreen';
 import SearchScreen from './SearchScreen';
+import {RootStackNavigationProp} from './RootStack';
 import {
   CompositeNavigationProp,
   NavigatorScreenParams,
 } from '@react-navigation/native';
-import {RootStackNavigationProp} from './RootStack';
+import SearchHeader from '../components/SearchHeader';
 
 type MainTabParamList = {
   Feeds: undefined;
@@ -59,9 +60,11 @@ function MainTab() {
         name="Search"
         component={SearchScreen}
         options={{
+          title: '검색',
           tabBarIcon: ({color, size}) => (
             <Icon name="search" size={size} color={color} />
           ),
+          headerTitle: () => <SearchHeader />,
         }}
       />
     </Tab.Navigator>
