@@ -1,11 +1,11 @@
 import React, {useContext, useState} from 'react';
-import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import {StyleSheet, KeyboardAvoidingView, Platform, Alert} from 'react-native';
 
+import {useLog} from '../contexts/LogContext';
 import WriteHeader from '../components/WriteHeader';
 import WriteEditor from '../components/WriteEditor';
-import {useLog} from '../contexts/LogContext';
 import {RootStackNavigationProp, WriteScreenRouteProp} from './RootStack';
 
 function WriteScreen() {
@@ -15,7 +15,7 @@ function WriteScreen() {
 
   const [title, setTitle] = useState(log?.title ?? '');
   const [body, setBody] = useState(log?.body ?? '');
-  const {onCreate, onModify} = useLog();
+  const {onCreate, onModify, onRemove} = useLog();
 
   const navigation = useNavigation<RootStackNavigationProp>();
 
@@ -33,12 +33,39 @@ function WriteScreen() {
     navigation.pop();
   };
 
+  const onAskRemove = () => {
+    if (!log?.id) {
+      return;
+    }
+
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        {text: '취소', style: 'cancel'},
+        {
+          text: '삭제',
+          style: 'destructive',
+          onPress: () => {
+            onRemove(log?.id);
+            navigation.pop();
+          },
+        },
+      ],
+      {cancelable: true},
+    );
+  };
+
   return (
     <SafeAreaView style={styles.block}>
       <KeyboardAvoidingView
         style={styles.avoidingView}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <WriteHeader onSave={onSave} />
+        <WriteHeader
+          onSave={onSave}
+          onAskRemove={onAskRemove}
+          isEditing={!!log}
+        />
         <WriteEditor
           title={title}
           body={body}

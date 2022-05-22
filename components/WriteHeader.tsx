@@ -1,15 +1,16 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {Pressable, View, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import {View, StyleSheet} from 'react-native';
 import {RootStackNavigationProp} from '../screens/RootStack';
 import TransparentCircleButton from './TransparentCircleButton';
 
 interface WriteHeaderProps {
   onSave: () => void;
+  onAskRemove: () => void;
+  isEditing: boolean;
 }
 
-function WriteHeader({onSave}: WriteHeaderProps) {
+function WriteHeader({onSave, onAskRemove, isEditing}: WriteHeaderProps) {
   const naviagtion = useNavigation<RootStackNavigationProp>();
 
   const onGoBack = () => {
@@ -25,11 +26,14 @@ function WriteHeader({onSave}: WriteHeaderProps) {
       />
 
       <View style={styles.buttons}>
-        <TransparentCircleButton
-          name="delete-forever"
-          color="#ef5350"
-          hasMarginRight
-        />
+        {isEditing && (
+          <TransparentCircleButton
+            name="delete-forever"
+            color="#ef5350"
+            hasMarginRight
+            onPress={onAskRemove}
+          />
+        )}
         <TransparentCircleButton
           name="check"
           color="#009688"
