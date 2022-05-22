@@ -27,14 +27,58 @@ const LogContext = createContext<LogContextValue | null>(null);
 export function LogContextProvider({children}: {children: React.ReactNode}) {
   const initialLogsRef = useRef(null);
   const [logs, setLogs] = useState<Log[]>(
-    Array.from({length: 10})
-      .map((_, index) => ({
+    [
+      {
         id: nanoid(),
-        title: `title ${index}`,
-        body: `body ${index}`,
-        date: new Date().toISOString(),
-      }))
-      .reverse(),
+        title: 'react',
+        body: 'react는 짱인가?',
+        date: '2022-05-15',
+      },
+      {
+        id: nanoid(),
+        title: 'vue',
+        body: 'vue는 짱인가?',
+        date: '2022-05-15',
+      },
+      {
+        id: nanoid(),
+        title: 'next',
+        body: 'next는 짱인가?',
+        date: '2022-05-15',
+      },
+      {
+        id: nanoid(),
+        title: '일기',
+        body: '코딩은 재밌다.',
+        date: '2022-05-10',
+      },
+      {
+        id: nanoid(),
+        title: '일기1',
+        body: '안녕하세요? 잘 지내셨나요?',
+        date: '2022-05-08',
+      },
+      {
+        id: nanoid(),
+        title: '일기2',
+        body: '오늘은 축구를 했는데 너무 재밌었다.',
+        date: '2022-05-06',
+      },
+      {
+        id: nanoid(),
+        title: '배가고프다.',
+        body: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        date: '2022-05-04',
+      },
+    ],
+    // Array.from({length: 10})
+    //   .map((_, index) => ({
+    //     id: nanoid(),
+    //     title: `title ${index}`,
+    //     body: `body ${index}`,
+    //     date: new Date().toISOString(),
+    //   }))
+    //   .reverse(),
   );
 
   useEffect(() => {
