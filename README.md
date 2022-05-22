@@ -1,5 +1,7 @@
 # React-Native Diary
 
+https://user-images.githubusercontent.com/63354527/169680685-9e8b34a1-5609-4b14-9197-9901a749fb23.mov
+
 ## 화면 설계
 
 ![Diary Screen Structure](https://user-images.githubusercontent.com/63354527/169354235-3146d162-5ee7-43e6-8765-ac4865953259.png)
