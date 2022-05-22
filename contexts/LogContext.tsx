@@ -1,5 +1,12 @@
-import React, {createContext, useContext, useState} from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from 'react';
 import {nanoid} from 'nanoid';
+import logsStorage from '../storages/logsStorage';
 // import {v4 as uuidv4} from 'uuid';
 
 export interface Log {
@@ -18,7 +25,7 @@ export interface LogContextValue {
 const LogContext = createContext<LogContextValue | null>(null);
 
 export function LogContextProvider({children}: {children: React.ReactNode}) {
-  // const [logs, setLogs] = useState<Log[]>([]);
+  const initialLogsRef = useRef(null);
   const [logs, setLogs] = useState<Log[]>(
     Array.from({length: 10})
       .map((_, index) => ({
@@ -29,6 +36,23 @@ export function LogContextProvider({children}: {children: React.ReactNode}) {
       }))
       .reverse(),
   );
+
+  useEffect(() => {
+    (async () => {
+      const savedLogs = await logsStorage.get();
+      if (savedLogs) {
+        initialLogsRef.current = savedLogs;
+        setLogs(savedLogs);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    if (logs === initialLogsRef.current) {
+      return;
+    }
+    logsStorage.set(logs);
+  }, [logs]);
 
   const onCreate = ({title, body, date}: Partial<Log>) => {
     const log = {
